@@ -6,7 +6,8 @@
 
 ---
 
-## The answer up front
+Final project for Financial Data Analysis, NCCU (Course grade: 97.1/100).
+
 
 **A long-only minimum-variance portfolio delivered the best risk-adjusted outcome of all seven strategies through the generative-AI shock: a Sharpe ratio of 1.25, versus 0.84 for an equal-weight portfolio, with the shallowest drawdown (6.5%) and low turnover.** Three findings support this:
 
