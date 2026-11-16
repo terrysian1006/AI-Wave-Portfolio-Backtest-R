@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>05 結論與後續｜人性溢價與反 AI 烏托邦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../">
+<main>
+
+  <div class="eyebrow">CHAPTER 05｜對應報告第 5 章</div>
+  <h1>結論與後續</h1>
+  <p class="muted">三大結論、模型限制與後續研究方向。</p>
+
+  <h2>5.1 三大結論</h2>
+  <div class="card-grid">
+    <div class="card"><div class="card-no">結論 1</div><h3>被動分散有盲點</h3><p>B&amp;H 取得 16.8% 的最高年化報酬，但和 1/N 一樣承受超過 14.5% 的波動與 10.0% 的最大回撤。平均配置等於無差別地承擔 AI 受災戶（如 CHGG、FVRR）商業模式瓦解的左尾風險。</p></div>
+    <div class="card"><div class="card-no">結論 2</div><h3>無限制最佳化會放大誤差</h3><p>允許放空的 Tangency 與 MVP 表現很差，Tangency 更因換手率達 34.198 與軋空效應而資產歸零。市場不穩定時，歷史估計充滿誤差，演算法會把高風險資產誤當成對沖工具。</p></div>
+    <div class="card"><div class="card-no">結論 3</div><h3>NS-GMVP 防禦力最佳</h3><p>年化波動度 8.1%、最大回撤 6.5%、夏普指標 1.249 為全場最佳，並免除鉅額交易成本。模型能自動把資金從 AI 受災戶撤出，集中到防禦性資產。</p></div>
+  </div>
+
+  <h2>5.2 實務限制與後續建議</h2>
+  <ol>
+    <li><strong>共變異數的估計方法：</strong>本研究使用樣本共變異數配合 252 天固定視窗，但市場波動有聚集性與時變性。後續可導入指數平滑移動平均（EWMA）或 GARCH 模型，給近期資料較高權重。</li>
+    <li><strong>高維度下的估計誤差：</strong>資產數 N = 37 時，矩陣求逆容易受極端值干擾。後續可使用收縮估計量（如 Ledoit-Wolf 收縮法），降低估計誤差、提升樣本外權重穩定性。</li>
+  </ol>
+  <div class="callout good">
+    <div class="callout-title">總結</div>
+    <p>面對 AI 帶來的產業衝擊，「人性溢價」與實體資產提供了可靠的資金避風港。但投資人不能只靠被動分散，唯有透過設定實務限制（禁止放空、考量交易成本）的量化最佳化框架，才能在追求資本增值的同時，穩健度過尾部風險的考驗。</p>
+  </div>
+
+  <h2>研究限制提醒（網站整理補充）</h2>
+  <ul>
+    <li>結果只代表 2022/12 至 2024/12 這一段樣本外期間，換一段期間結論可能不同。</li>
+    <li>37 檔標的與五個群組是研究者自行挑選，挑選本身可能帶有後見之明。</li>
+    <li>本網站為個人課堂研究整理，<strong>非投資建議</strong>。</li>
+  </ul>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+    <li>R 程式碼：<a href="https://github.com/terrysian1006/AI-Wave-Portfolio-Backtest-R">AI-Wave-Portfolio-Backtest-R</a></li>
+  </ul>
+
+</main>
+<script src="../assets/js/report-data.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

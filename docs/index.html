@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人性溢價與反 AI 烏托邦｜AI 狂潮下的逆勢投資組合</title>
+  <meta name="description" content="財務金融資訊分析期末報告網頁版：37 檔資產、7 種投資組合策略、522 個交易日的樣本外回測。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-root="">
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">財務金融資訊分析｜期末報告網頁版</div>
+    <h1>人性溢價與反 AI 烏托邦</h1>
+    <p class="subtitle">AI 狂潮下的逆勢投資組合建構與績效比較</p>
+    <p class="meta-line">Terry Lai｜使用 R（quadprog）實作｜樣本期間 2021/12/01 至 2024/12/31｜個人課堂研究，非投資建議</p>
+  </section>
+
+  <div class="stat-strip">
+    <div class="stat"><div class="value">37</div><div class="label">檔全球股票與 ETF</div></div>
+    <div class="stat"><div class="value">5</div><div class="label">個資產群組</div></div>
+    <div class="stat"><div class="value">7</div><div class="label">種投資組合策略</div></div>
+    <div class="stat"><div class="value">522</div><div class="label">個樣本外交易日</div></div>
+    <div class="stat"><div class="value">1.249</div><div class="label">最佳夏普指標（NS-GMVP）</div></div>
+  </div>
+
+  <h2>研究問題</h2>
+  <p>2022 年底生成式 AI 爆發後，資金集中在少數大型科技股，但不同產業的命運開始分歧：有些公司的商業模式容易被 AI 取代，有些公司擁有版權、實體體驗或資安防禦這類不容易被軟體複製的優勢。</p>
+  <p>這份報告想回答：<strong>如果完全不預測未來報酬，只靠過去的共變異數矩陣做資產配置，能不能在這段劇烈變動的期間自動避開風險？加上「禁止放空」這種實務限制，又會有什麼差別？</strong></p>
+
+  <div class="callout good">
+    <div class="callout-title">一句話結論</div>
+    <p>禁止放空的全局最小變異數組合（NS-GMVP）在樣本外期間表現最穩：年化波動度 8.1%、最大回撤 6.5%、夏普指標 1.249，三項都優於等權重（1/N）與買入持有（B&amp;H）。允許放空的切線組合（Tangency）則因估計誤差與極端換手而崩跌。</p>
+  </div>
+
+  <h2>章節</h2>
+  <div class="card-grid" id="chapter-cards">
+    <!-- 由 assets/js/site.js 的 CHAPTERS 自動產生；以下為未啟用 JavaScript 時的備用連結 -->
+    <a class="card" href="chapters/01-motivation.html"><h3>01 研究動機與資料</h3></a>
+    <a class="card" href="chapters/02-assets.html"><h3>02 個別資產特性</h3></a>
+    <a class="card" href="chapters/03-method.html"><h3>03 策略與回測方法</h3></a>
+    <a class="card" href="chapters/04-results.html"><h3>04 樣本外實證結果</h3></a>
+    <a class="card" href="chapters/05-conclusion.html"><h3>05 結論與後續</h3></a>
+  </div>
+
+  <h2>研究流程</h2>
+  <ol>
+    <li><strong>選標的：</strong>依「受 AI 衝擊的方式」把 37 檔資產分成五組，資料取自 Yahoo Finance 每日調整後收盤價。</li>
+    <li><strong>看特性：</strong>計算報酬分配、波動度、偏態、峰度與相關係數，找出可以互相分散風險的資產。</li>
+    <li><strong>建策略：</strong>2 種被動基準加 5 種馬可維茲最佳化組合，部分加入禁止放空限制。</li>
+    <li><strong>做回測：</strong>用過去 252 天估計參數、逐日向前滾動，在 522 個沒看過的交易日上計算扣除交易成本後的淨報酬。</li>
+    <li><strong>比績效：</strong>報酬、波動、夏普、VaR、ES、最大回撤、換手率、集中度、放空比例。</li>
+  </ol>
+
+  <h2>相關連結</h2>
+  <ul>
+    <li>R 程式碼：<a href="https://github.com/terrysian1006/AI-Wave-Portfolio-Backtest-R">AI-Wave-Portfolio-Backtest-R</a></li>
+    <li>網站規則說明（給 AI 與協作者看）：<a href="CLAUDE.md">CLAUDE.md</a></li>
+  </ul>
+
+</main>
+<script src="assets/js/report-data.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

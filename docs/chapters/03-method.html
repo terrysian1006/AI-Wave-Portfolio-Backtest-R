@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>03 策略與回測方法｜人性溢價與反 AI 烏托邦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../">
+<main>
+
+  <div class="eyebrow">CHAPTER 03｜對應報告第 3 章</div>
+  <h1>策略與回測方法</h1>
+  <p class="muted">7 種投資組合策略、參數設定，以及避免前視偏誤的滾動視窗回測。</p>
+
+  <div class="callout">
+    <div class="callout-title">本章重點</div>
+    <ul>
+      <li>7 種策略分成「被動基準」2 種與「主動最佳化」5 種，用 R 的 <code>quadprog</code> 套件求解權重。</li>
+      <li>目標報酬 10%、無風險利率 2.5%，並把交易成本計入淨報酬。</li>
+      <li>每天只用過去 252 天的資料估計，再套用到隔天沒看過的報酬，完全避免前視偏誤。</li>
+    </ul>
+  </div>
+
+  <h2>3.1 七種投資組合策略</h2>
+  <h3>被動式基準策略</h3>
+  <div class="card-grid">
+    <div class="card"><div class="card-no">策略 1</div><h3>等權重（1/N）</h3><p>每個交易日把資金平均分給 37 檔。不需要估計參數，假設投資人對報酬與共變異數沒有任何資訊，作為判斷主動策略有沒有價值的基準線；缺點是容易被高波動資產拖累。</p></div>
+    <div class="card"><div class="card-no">策略 2</div><h3>買入並持有（B&amp;H）</h3><p>期初等權重投入後不再調整，權重隨股價自然漂移，強勢資產的比重會自動變大。用來對照被動投資人在市場結構改變時的真實持有結果。</p></div>
+  </div>
+
+  <h3>主動式最佳化策略</h3>
+  <div class="card-grid">
+    <div class="card"><div class="card-no">策略 3</div><span class="tag short">可放空</span><h3>全局最小變異數（GMVP）</h3><p>平均報酬的估計誤差很大，因此捨棄預期報酬，只用歷史共變異數矩陣讓組合變異數最小，透過多空對沖抵銷風險。</p></div>
+    <div class="card"><div class="card-no">策略 4</div><span class="tag noshort">禁止放空</span><h3>NS-GMVP</h3><p>在 GMVP 上加入權重不得為負的限制，貼近機構投資人的放空規範，可抑制估計誤差造成的極端集中權重，提升穩健度。</p></div>
+    <div class="card"><div class="card-no">策略 5</div><span class="tag short">可放空</span><h3>給定目標報酬（MVP）</h3><p>在允許放空下，先滿足「目標期望報酬率」的等式限制，再讓變異數最小，反映投資人對資本增值的底線要求。</p></div>
+    <div class="card"><div class="card-no">策略 6</div><span class="tag noshort">禁止放空</span><h3>NS-MVP</h3><p>MVP 的實務受限版本。不允許放空後，只能在較小的可行範圍內，於高波動科技股與低波動防禦資產間找出符合目標報酬的配置。</p></div>
+    <div class="card"><div class="card-no">策略 7</div><span class="tag short">可放空</span><h3>切線組合（Tangency）</h3><p>納入無風險資產，找出資本配置線上夏普指標最大的切點。高度依賴歷史預期報酬，權重容易極端化，是本研究觀察模型風險的指標。</p></div>
+  </div>
+
+  <h2>3.2 模型參數與限制條件</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>參數</th><th>設定</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>目標期望報酬率</td><td class="num">年化 10%</td><td class="text">參考 S&amp;P 500 長期平均股權溢酬，作為合理的資本增值底線。</td></tr>
+        <tr><td>無風險利率</td><td class="num">年化 2.5%</td><td class="text">樣本期間同時涵蓋零利率與暴力升息，取美國 10 年期公債殖利率過去十年均值。</td></tr>
+        <tr><td>交易成本</td><td class="num">3.5 bps</td><td class="text">頻繁買賣會產生滑價與手續費，計入淨報酬以避免實務上做不到的「紙上績效」。</td></tr>
+        <tr><td>權重總和</td><td class="num">100%</td><td class="text">所有策略在 <code>solve.QP</code> 求解時都受此等式限制（預算限制）。</td></tr>
+        <tr><td>禁止放空</td><td class="num">N × N 單位矩陣</td><td class="text">NS-GMVP 與 NS-MVP 另加入單位對角矩陣，使每檔權重不小於 0。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>3.3 樣本外滾動回測</h2>
+  <p>為了貼近真實投資情境、避免用到「未來資料」造成的前視偏誤（Look-ahead Bias），本研究採用樣本外滾動視窗架構：</p>
+  <div class="timeline" aria-label="滾動視窗示意">
+    <div class="est">用過去 k = 252 天估計</div>
+    <div class="oos">套用到下一天，計算損益，再往前滾動一天（共 h = 522 天）</div>
+  </div>
+  <ol>
+    <li><strong>估計視窗：</strong>固定為 252 天（一年交易日）。在任一天 t，模型只用過去 252 天已知的日報酬估計共變異數矩陣與平均報酬。第一組矩陣使用 2021/12/01 至 2022/11/30 的資料求解。</li>
+    <li><strong>樣本外檢驗：</strong>測試期間 2022/12/01 至 2024/12/31，共 522 天。把 t 日依已知資訊求出的權重，乘上 t 日實際發生的報酬，得到單日樣本外損益；視窗每天往前滾動一天，最後得到 522 天完整的樣本外淨報酬序列。</li>
+    <li><strong>權重漂移與換手率：</strong>資產每天漲跌不同，權重會偏離目標。每日換手率以「當日目標權重」與「前一日漂移後權重」的絕對差計算，扣除對應的交易成本後才是最終淨報酬。</li>
+  </ol>
+
+</main>
+<script src="../assets/js/report-data.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

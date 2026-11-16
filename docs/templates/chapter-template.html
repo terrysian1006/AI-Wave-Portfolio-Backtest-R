@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{編號}} {{章名}}｜人性溢價與反 AI 烏托邦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../">
+<main>
+  <!--
+    章節頁範本：複製成 chapters/編號-英文主題.html，再把所有 {{ }} 換掉。
+    規則見 CLAUDE.md 第 4、5 節。完成後記得到 assets/js/site.js 的 CHAPTERS 登記。
+  -->
+
+  <div class="eyebrow">CHAPTER {{編號}}｜對應報告第 {{N}} 章</div>
+  <h1>{{章名}}</h1>
+  <p class="muted">{{一句話摘要，與 CHAPTERS 的 summary 相同}}</p>
+
+  <div class="callout">
+    <div class="callout-title">本章重點</div>
+    <ul>
+      <li>{{重點一，有數字就寫數字}}</li>
+      <li>{{重點二}}</li>
+      <li>{{重點三}}</li>
+    </ul>
+  </div>
+
+  <h2>{{N.1 節標題}}</h2>
+  <p>{{內文，一段不超過 5 行}}</p>
+
+  <figure>
+    <img src="../assets/img/fig-{{圖號}}.jpg" alt="{{一句話描述圖的內容}}" loading="lazy">
+    <figcaption><strong>圖 {{圖號}}：</strong>{{報告原本的圖名}}</figcaption>
+  </figure>
+
+  <h2>{{N.2 節標題}}</h2>
+  <div class="table-wrap">
+    <table class="sortable-table">
+      <thead><tr><th>{{欄位}}</th><th>{{數值欄位}}</th></tr></thead>
+      <tbody>
+        <tr><td>{{項目}}</td><td class="num" data-value="{{數字}}">{{數字}}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="table-note"><strong>表 {{表號}}：</strong>{{表名與讀法}}</p>
+
+  <div class="callout good">
+    <div class="callout-title">小結</div>
+    <p>{{本章結論}}</p>
+  </div>
+
+</main>
+<script src="../assets/js/report-data.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
